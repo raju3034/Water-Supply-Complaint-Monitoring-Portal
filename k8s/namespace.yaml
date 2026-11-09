@@ -1,0 +1,7 @@
+apiVersion: v1
+kind: Namespace
+metadata:
+  name: water-portal
+  labels:
+    app.kubernetes.io/name: jalconnect-water-portal
+    app.kubernetes.io/part-of: devops-course-project
