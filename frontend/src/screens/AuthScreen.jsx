@@ -75,37 +75,6 @@ export default function AuthScreen({ currentUser, onLoginSuccess, onLogout }) {
     }
   };
 
-  const roleAccounts = [
-    {
-      icon: "👑",
-      role: "System Administrator",
-      email: "admin@jalconnect.gov.in",
-      password: "Admin@1234",
-      color: "#4f46e5",
-    },
-    {
-      icon: "🏢",
-      role: "Department Officer",
-      email: "officer@jalconnect.gov.in",
-      password: "Officer@1234",
-      color: "#0284c7",
-    },
-    {
-      icon: "🔧",
-      role: "Field Technician",
-      email: "technician@jalconnect.gov.in",
-      password: "Tech@1234",
-      color: "#d97706",
-    },
-    {
-      icon: "👤",
-      role: "Citizen Consumer",
-      email: "citizen@example.com",
-      password: "Citizen@1234",
-      color: "#059669",
-    },
-  ];
-
   return (
     <div className="screen-container">
 
@@ -330,41 +299,6 @@ export default function AuthScreen({ currentUser, onLoginSuccess, onLogout }) {
             </p>
           </form>
         )}
-      </div>
-
-      {/* Credential Reference Table — read-only, no auto-login */}
-      <div className="cred-reference-box">
-        <h4 className="cred-ref-title">📋 Portal Role Credentials Reference</h4>
-        <p className="cred-ref-desc">
-          Use the email and password below to sign in manually for each role.
-        </p>
-        <div className="cred-ref-table-wrap">
-          <table className="cred-ref-table">
-            <thead>
-              <tr>
-                <th>Role</th>
-                <th>Email Address</th>
-                <th>Password</th>
-              </tr>
-            </thead>
-            <tbody>
-              {roleAccounts.map((acc) => (
-                <tr key={acc.role}>
-                  <td>
-                    <span className="cred-role-label" style={{ color: acc.color }}>
-                      {acc.icon} {acc.role}
-                    </span>
-                  </td>
-                  <td><code className="cred-code">{acc.email}</code></td>
-                  <td><code className="cred-code">{acc.password}</code></td>
-                </tr>
-              ))}
-            </tbody>
-          </table>
-        </div>
-        <p className="cred-ref-note">
-          ℹ️ Copy the credentials above and paste them into the Sign In form.
-        </p>
       </div>
 
     </div>
