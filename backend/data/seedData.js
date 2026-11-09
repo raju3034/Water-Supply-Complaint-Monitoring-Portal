@@ -4,7 +4,6 @@ const getHashed = (pwd) => bcrypt.hashSync(pwd, 10);
 
 const seedUsers = [
   {
-    _id: "usr_admin_001",
     name: "Dr. A. K. Sharma",
     email: "admin@jalconnect.gov.in",
     phone: "9876543210",
@@ -16,7 +15,6 @@ const seedUsers = [
     createdAt: new Date("2026-01-10"),
   },
   {
-    _id: "usr_officer_001",
     name: "Sunita Verma",
     email: "officer@jalconnect.gov.in",
     phone: "9876543211",
@@ -28,7 +26,6 @@ const seedUsers = [
     createdAt: new Date("2026-01-12"),
   },
   {
-    _id: "usr_tech_001",
     name: "Rajesh Kumar",
     email: "technician@jalconnect.gov.in",
     phone: "9876543212",
@@ -40,7 +37,6 @@ const seedUsers = [
     createdAt: new Date("2026-01-15"),
   },
   {
-    _id: "usr_tech_002",
     name: "Vikram Singh",
     email: "tech2@jalconnect.gov.in",
     phone: "9876543213",
@@ -52,14 +48,13 @@ const seedUsers = [
     createdAt: new Date("2026-01-18"),
   },
   {
-    _id: "usr_citizen_001",
     name: "Ramesh Reddy",
     email: "citizen@example.com",
     phone: "9876543214",
     password: getHashed("Citizen@1234"),
     role: "Citizen",
     department: "Public Consumer",
-    assignedArea: "Ward 2 - Lakeview",
+    assignedArea: "Ward 2 - Lakeview Residency",
     isActive: true,
     createdAt: new Date("2026-02-01"),
   },
@@ -67,7 +62,6 @@ const seedUsers = [
 
 const seedSchedules = [
   {
-    _id: "sch_001",
     scheduleId: "SCH-101",
     area: "Ward 1 - Old Town Heritage",
     wardNumber: "Ward 1",
@@ -83,7 +77,6 @@ const seedSchedules = [
     updatedAt: new Date(),
   },
   {
-    _id: "sch_002",
     scheduleId: "SCH-102",
     area: "Ward 2 - Lakeview Residency",
     wardNumber: "Ward 2",
@@ -99,7 +92,6 @@ const seedSchedules = [
     updatedAt: new Date(),
   },
   {
-    _id: "sch_003",
     scheduleId: "SCH-103",
     area: "Ward 3 - Green Park Colony",
     wardNumber: "Ward 3",
@@ -115,7 +107,6 @@ const seedSchedules = [
     updatedAt: new Date(),
   },
   {
-    _id: "sch_004",
     scheduleId: "SCH-104",
     area: "Ward 4 - Industrial Area & Enclave",
     wardNumber: "Ward 4",
@@ -131,7 +122,6 @@ const seedSchedules = [
     updatedAt: new Date(),
   },
   {
-    _id: "sch_005",
     scheduleId: "SCH-105",
     area: "Ward 5 - Sunrise Heights",
     wardNumber: "Ward 5",
@@ -147,7 +137,6 @@ const seedSchedules = [
     updatedAt: new Date(),
   },
   {
-    _id: "sch_006",
     scheduleId: "SCH-106",
     area: "Ward 6 - Riverside Extension",
     wardNumber: "Ward 6",
@@ -166,12 +155,11 @@ const seedSchedules = [
 
 const seedComplaints = [
   {
-    _id: "cmp_001",
     complaintId: "CMP-2026-1001",
     citizenName: "Ramesh Reddy",
     phone: "9876543214",
     citizenEmail: "citizen@example.com",
-    citizenId: "usr_citizen_001",
+    citizenId: null,
     complaintType: "Leakage",
     area: "Ward 2 - Lakeview Residency",
     address: "House 42, Cross Road 3, Lakeview",
@@ -179,9 +167,9 @@ const seedComplaints = [
     description: "Main underground pipeline ruptured, clean water overflowing onto street.",
     priority: "High",
     status: "In Progress",
-    assignedOfficer: "usr_officer_001",
+    assignedOfficer: null,
     assignedOfficerName: "Sunita Verma",
-    assignedTechnician: "usr_tech_001",
+    assignedTechnician: null,
     assignedTechnicianName: "Rajesh Kumar",
     targetResolutionDate: "2026-11-10",
     resolutionNote: "Technician dispatched on site with hydraulic clamp and bypass valve.",
@@ -217,7 +205,6 @@ const seedComplaints = [
     createdAt: new Date("2026-11-08T09:15:00"),
   },
   {
-    _id: "cmp_002",
     complaintId: "CMP-2026-1002",
     citizenName: "Priya Nair",
     phone: "9845123456",
@@ -230,9 +217,9 @@ const seedComplaints = [
     description: "Water flowing from taps is brownish with foul smell and suspended sediments.",
     priority: "Critical",
     status: "Resolved",
-    assignedOfficer: "usr_officer_001",
+    assignedOfficer: null,
     assignedOfficerName: "Sunita Verma",
-    assignedTechnician: "usr_tech_001",
+    assignedTechnician: null,
     assignedTechnicianName: "Rajesh Kumar",
     targetResolutionDate: "2026-11-07",
     resolutionNote: "Flushed distribution line, cleared end scour valve, and added booster chlorination.",
@@ -275,7 +262,6 @@ const seedComplaints = [
     createdAt: new Date("2026-11-07T09:00:00"),
   },
   {
-    _id: "cmp_003",
     complaintId: "CMP-2026-1003",
     citizenName: "Amitabh Sen",
     phone: "9711223344",
@@ -312,7 +298,6 @@ const seedComplaints = [
     createdAt: new Date("2026-11-09T08:00:00"),
   },
   {
-    _id: "cmp_004",
     complaintId: "CMP-2026-1004",
     citizenName: "Ananya Joshi",
     phone: "9822334455",
@@ -325,9 +310,9 @@ const seedComplaints = [
     description: "Water pressure has dropped significantly. Takes over 2 hours to fill overhead tank.",
     priority: "Medium",
     status: "Assigned",
-    assignedOfficer: "usr_officer_001",
+    assignedOfficer: null,
     assignedOfficerName: "Sunita Verma",
-    assignedTechnician: "usr_tech_002",
+    assignedTechnician: null,
     assignedTechnicianName: "Vikram Singh",
     targetResolutionDate: "2026-11-11",
     resolutionNote: "Technician assigned to inspect sector pressure regulating valve (PRV).",
@@ -356,7 +341,6 @@ const seedComplaints = [
     createdAt: new Date("2026-11-08T14:20:00"),
   },
   {
-    _id: "cmp_005",
     complaintId: "CMP-2026-1005",
     citizenName: "Sanjay Gupta",
     phone: "9988776655",
@@ -369,9 +353,9 @@ const seedComplaints = [
     description: "Sluice valve flange leaking high volume of water near main junction.",
     priority: "High",
     status: "Resolved",
-    assignedOfficer: "usr_officer_001",
+    assignedOfficer: null,
     assignedOfficerName: "Sunita Verma",
-    assignedTechnician: "usr_tech_002",
+    assignedTechnician: null,
     assignedTechnicianName: "Vikram Singh",
     targetResolutionDate: "2026-11-06",
     resolutionNote: "Replaced degraded rubber gasket and retorqued 8x high-tensile flange bolts.",
@@ -414,7 +398,6 @@ const seedComplaints = [
     createdAt: new Date("2026-11-06T13:00:00"),
   },
   {
-    _id: "cmp_006",
     complaintId: "CMP-2026-1006",
     citizenName: "Fatima Bi",
     phone: "9123456780",
@@ -427,9 +410,9 @@ const seedComplaints = [
     description: "Road construction contractors dug up and punctured the feeder pipe.",
     priority: "Critical",
     status: "In Progress",
-    assignedOfficer: "usr_officer_001",
+    assignedOfficer: null,
     assignedOfficerName: "Sunita Verma",
-    assignedTechnician: "usr_tech_002",
+    assignedTechnician: null,
     assignedTechnicianName: "Vikram Singh",
     targetResolutionDate: "2026-11-10",
     resolutionNote: "Pipeline isolated. Section welded and sleeve installation underway.",
@@ -468,7 +451,6 @@ const seedComplaints = [
 
 const seedUpdates = [
   {
-    _id: "upd_001",
     updateId: "ALR-201",
     title: "Urgent Pipeline Overhaul on West Bank Booster line",
     area: "Ward 6 - Riverside Extension",
@@ -482,7 +464,6 @@ const seedUpdates = [
     createdAt: new Date("2026-11-09T08:15:00"),
   },
   {
-    _id: "upd_002",
     updateId: "ALR-202",
     title: "Scheduled Overhead Tank Chlorination & Cleaning",
     area: "Ward 2 - Lakeview Residency",
@@ -496,7 +477,6 @@ const seedUpdates = [
     createdAt: new Date("2026-11-07T10:00:00"),
   },
   {
-    _id: "upd_003",
     updateId: "ALR-203",
     title: "Morning Feeder Pump Power Surge Resolved",
     area: "Ward 3 - Green Park Colony",
@@ -517,3 +497,4 @@ module.exports = {
   seedComplaints,
   seedUpdates,
 };
+
