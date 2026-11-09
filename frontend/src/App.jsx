@@ -1,7 +1,6 @@
 import React, { useState, useEffect } from "react";
 import "./App.css";
 
-import DemoRoleBar from "./components/DemoRoleBar";
 import Navbar from "./components/Navbar";
 
 import PublicScheduleScreen from "./screens/PublicScheduleScreen";
@@ -13,8 +12,6 @@ import OfficerManageScreen from "./screens/OfficerManageScreen";
 import TechnicianScreen from "./screens/TechnicianScreen";
 import ScheduleManageScreen from "./screens/ScheduleManageScreen";
 import ReportsScreen from "./screens/ReportsScreen";
-
-import { api } from "./services/api";
 
 function App() {
   const [currentUser, setCurrentUser] = useState(null);
@@ -34,31 +31,7 @@ function App() {
     }
   }, []);
 
-  // Quick 1-click login handler for evaluator bar
-  const handleQuickLogin = async (email, password) => {
-    try {
-      const res = await api.auth.login({ email, password });
-      if (res.success) {
-        localStorage.setItem("jalconnect_token", res.token);
-        localStorage.setItem("jalconnect_user", JSON.stringify(res.user));
-        setCurrentUser(res.user);
-
-        // Auto-navigate to the most relevant view for that role
-        if (res.user.role === "Admin") {
-          setActiveTab("dashboard");
-        } else if (res.user.role === "Water Department Officer") {
-          setActiveTab("manage-complaints");
-        } else if (res.user.role === "Field Technician") {
-          setActiveTab("technician-tasks");
-        } else {
-          setActiveTab("my-complaints");
-        }
-      }
-    } catch (err) {
-      console.error("Quick login failed:", err.message);
-    }
-  };
-
+  // Quick 1-click login handler removed — manual login only
   const handleLoginSuccess = (user) => {
     setCurrentUser(user);
     if (user.role === "Admin" || user.role === "Water Department Officer") {
@@ -79,9 +52,6 @@ function App() {
 
   return (
     <div className="portal-app">
-      {/* 1-Click Role Switcher for Evaluator Convenience */}
-      <DemoRoleBar onQuickLogin={handleQuickLogin} currentUser={currentUser} />
-
       {/* Main Navigation Header */}
       <Navbar
         activeTab={activeTab}

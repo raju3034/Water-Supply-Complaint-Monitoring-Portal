@@ -7,6 +7,7 @@ export default function AuthScreen({ currentUser, onLoginSuccess, onLogout }) {
   // Login form
   const [loginEmail, setLoginEmail] = useState("");
   const [loginPassword, setLoginPassword] = useState("");
+  const [showPassword, setShowPassword] = useState(false);
   const [loginLoading, setLoginLoading] = useState(false);
   const [loginError, setLoginError] = useState("");
 
@@ -34,10 +35,10 @@ export default function AuthScreen({ currentUser, onLoginSuccess, onLogout }) {
         localStorage.setItem("jalconnect_user", JSON.stringify(res.user));
         onLoginSuccess(res.user);
       } else {
-        setLoginError(res.message || "Invalid credentials.");
+        setLoginError(res.message || "Invalid credentials. Please check email and password.");
       }
     } catch (err) {
-      setLoginError(err.message || "Sign in failed.");
+      setLoginError(err.message || "Sign in failed. Please try again.");
     } finally {
       setLoginLoading(false);
     }
@@ -74,63 +75,42 @@ export default function AuthScreen({ currentUser, onLoginSuccess, onLogout }) {
     }
   };
 
-  const handleQuickRole = async (email, pwd) => {
-    setLoginEmail(email);
-    setLoginPassword(pwd);
-    setLoginLoading(true);
-    setLoginError("");
-    try {
-      const res = await api.auth.login({ email, password: pwd });
-      if (res.success) {
-        localStorage.setItem("jalconnect_token", res.token);
-        localStorage.setItem("jalconnect_user", JSON.stringify(res.user));
-        onLoginSuccess(res.user);
-      }
-    } catch (err) {
-      setLoginError(err.message || "Quick login failed.");
-    } finally {
-      setLoginLoading(false);
-    }
-  };
-
-  const demoAccounts = [
+  const roleAccounts = [
     {
-      role: "Admin",
-      title: "👑 System Administrator",
+      icon: "👑",
+      role: "System Administrator",
       email: "admin@jalconnect.gov.in",
-      pwd: "Admin@1234",
-      duty: "Complete system authority, audit trails, and executive reporting.",
+      password: "Admin@1234",
       color: "#4f46e5",
     },
     {
-      role: "Water Department Officer",
-      title: "🏢 Department Officer",
+      icon: "🏢",
+      role: "Department Officer",
       email: "officer@jalconnect.gov.in",
-      pwd: "Officer@1234",
-      duty: "Complaint allocation, technician dispatching, and schedule publishing.",
+      password: "Officer@1234",
       color: "#0284c7",
     },
     {
+      icon: "🔧",
       role: "Field Technician",
-      title: "🔧 Field Technician",
       email: "technician@jalconnect.gov.in",
-      pwd: "Tech@1234",
-      duty: "On-site pipe repair, valve replacement, and resolution logs.",
+      password: "Tech@1234",
       color: "#d97706",
     },
     {
-      role: "Citizen",
-      title: "👤 Citizen Consumer",
+      icon: "👤",
+      role: "Citizen Consumer",
       email: "citizen@example.com",
-      pwd: "Citizen@1234",
-      duty: "Register grievances, track status, and rate service quality.",
+      password: "Citizen@1234",
       color: "#059669",
     },
   ];
 
   return (
     <div className="screen-container">
-      {currentUser ? (
+
+      {/* Currently Signed In Panel */}
+      {currentUser && (
         <div className="logged-in-card">
           <div className="logged-in-icon">✅</div>
           <h3>Currently Signed In</h3>
@@ -142,116 +122,132 @@ export default function AuthScreen({ currentUser, onLoginSuccess, onLogout }) {
             <span className="logged-in-email">{currentUser.email}</span>
             <span className="logged-in-area">{currentUser.assignedArea || "All Zones"}</span>
           </div>
-
           <div className="logged-in-actions">
             <button type="button" className="btn btn-secondary" onClick={onLogout}>
-              Sign Out from Account
+              🚪 Sign Out from Account
             </button>
           </div>
         </div>
-      ) : null}
+      )}
 
-      {/* 1-Click Role Showcase */}
-      <div className="quick-roles-showcase">
-        <div className="section-header-compact">
-          <h3 className="section-title">⚡ Fast Evaluation: 1-Click Role Sign In</h3>
-          <span className="eval-pill">EVALUATION READY</span>
-        </div>
-        <p className="section-desc">
-          DevOps Evaluation feature: instantly test each assigned user role with pre-configured mock credentials.
-        </p>
-
-        <div className="quick-roles-grid">
-          {demoAccounts.map((acc) => (
-            <div key={acc.role} className="quick-role-card" style={{ borderColor: acc.color }}>
-              <div className="quick-role-header">
-                <h4 style={{ color: acc.color }}>{acc.title}</h4>
-                <span className="quick-role-badge">{acc.role}</span>
-              </div>
-              <p className="quick-role-duty">{acc.duty}</p>
-              <div className="quick-role-creds">
-                <small><strong>User:</strong> {acc.email}</small>
-                <small><strong>Pass:</strong> {acc.pwd}</small>
-              </div>
-              <button
-                type="button"
-                className="btn btn-outline"
-                style={{ borderColor: acc.color, color: acc.color }}
-                onClick={() => handleQuickRole(acc.email, acc.pwd)}
-                disabled={loginLoading}
-              >
-                Log In as {acc.role.split(" ")[0]}
-              </button>
-            </div>
-          ))}
-        </div>
-      </div>
-
-      {/* Standard Login & Registration Form */}
+      {/* Login / Register Form */}
       <div className="auth-box-container">
+        {/* Tabs */}
         <div className="auth-tabs">
           <button
             type="button"
             className={`auth-tab-btn ${activeTab === "login" ? "active" : ""}`}
-            onClick={() => setActiveTab("login")}
+            onClick={() => { setActiveTab("login"); setLoginError(""); }}
           >
-            🔐 Sign In to Portal
+            🔐 Sign In
           </button>
           <button
             type="button"
             className={`auth-tab-btn ${activeTab === "register" ? "active" : ""}`}
-            onClick={() => setActiveTab("register")}
+            onClick={() => { setActiveTab("register"); setRegError(""); setRegSuccess(""); }}
           >
-            📝 Citizen Registration
+            📝 Register as Citizen
           </button>
         </div>
 
-        {activeTab === "login" ? (
-          <form onSubmit={handleLoginSubmit} className="auth-form">
-            <h3>Portal Account Login</h3>
-            <p className="auth-sub">Enter your email and password to access your role-specific dashboard.</p>
+        {/* ── SIGN IN FORM ── */}
+        {activeTab === "login" && (
+          <form onSubmit={handleLoginSubmit} className="auth-form" autoComplete="off">
+            <div className="auth-form-header">
+              <div className="auth-form-icon">🔐</div>
+              <h3>Portal Sign In</h3>
+              <p className="auth-sub">
+                Enter your registered email address and password to access your role-specific dashboard.
+              </p>
+            </div>
 
-            {loginError && <div className="notice notice-error">{loginError}</div>}
+            {loginError && (
+              <div className="notice notice-error">
+                ⚠️ {loginError}
+              </div>
+            )}
 
             <div className="form-group">
-              <label>Official / Registered Email Address:</label>
+              <label htmlFor="login-email">Email Address</label>
               <input
+                id="login-email"
                 type="email"
                 className="text-input"
                 placeholder="e.g. officer@jalconnect.gov.in"
                 value={loginEmail}
                 onChange={(e) => setLoginEmail(e.target.value)}
                 required
+                autoFocus
               />
             </div>
 
             <div className="form-group">
-              <label>Password:</label>
-              <input
-                type="password"
-                className="text-input"
-                placeholder="Enter your password"
-                value={loginPassword}
-                onChange={(e) => setLoginPassword(e.target.value)}
-                required
-              />
+              <label htmlFor="login-password">Password</label>
+              <div className="password-input-wrap">
+                <input
+                  id="login-password"
+                  type={showPassword ? "text" : "password"}
+                  className="text-input"
+                  placeholder="Enter your password"
+                  value={loginPassword}
+                  onChange={(e) => setLoginPassword(e.target.value)}
+                  required
+                />
+                <button
+                  type="button"
+                  className="password-toggle"
+                  onClick={() => setShowPassword((v) => !v)}
+                  tabIndex={-1}
+                  title={showPassword ? "Hide password" : "Show password"}
+                >
+                  {showPassword ? "🙈" : "👁️"}
+                </button>
+              </div>
             </div>
 
-            <button type="submit" className="btn btn-primary btn-large" disabled={loginLoading}>
-              {loginLoading ? "Authenticating..." : "Sign In"}
+            <button
+              type="submit"
+              className="btn btn-primary btn-large"
+              disabled={loginLoading || !loginEmail || !loginPassword}
+            >
+              {loginLoading ? (
+                <span>⏳ Authenticating...</span>
+              ) : (
+                <span>Sign In →</span>
+              )}
             </button>
-          </form>
-        ) : (
-          <form onSubmit={handleRegisterSubmit} className="auth-form">
-            <h3>Create Citizen Account</h3>
-            <p className="auth-sub">Register to lodge complaints and track water repair progress in real time.</p>
 
-            {regError && <div className="notice notice-error">{regError}</div>}
-            {regSuccess && <div className="notice notice-success">{regSuccess}</div>}
+            <p className="auth-switch-hint">
+              New citizen?{" "}
+              <button
+                type="button"
+                className="link-btn"
+                onClick={() => setActiveTab("register")}
+              >
+                Create an account
+              </button>
+            </p>
+          </form>
+        )}
+
+        {/* ── REGISTER FORM ── */}
+        {activeTab === "register" && (
+          <form onSubmit={handleRegisterSubmit} className="auth-form">
+            <div className="auth-form-header">
+              <div className="auth-form-icon">📝</div>
+              <h3>Create Citizen Account</h3>
+              <p className="auth-sub">
+                Register to lodge water complaints and track repair progress in real time.
+              </p>
+            </div>
+
+            {regError && <div className="notice notice-error">⚠️ {regError}</div>}
+            {regSuccess && <div className="notice notice-success">✅ {regSuccess}</div>}
 
             <div className="form-group">
-              <label>Full Legal Name:</label>
+              <label htmlFor="reg-name">Full Legal Name</label>
               <input
+                id="reg-name"
                 type="text"
                 className="text-input"
                 placeholder="e.g. Meera Reddy"
@@ -262,8 +258,9 @@ export default function AuthScreen({ currentUser, onLoginSuccess, onLogout }) {
             </div>
 
             <div className="form-group">
-              <label>Email Address:</label>
+              <label htmlFor="reg-email">Email Address</label>
               <input
+                id="reg-email"
                 type="email"
                 className="text-input"
                 placeholder="e.g. meera.reddy@example.com"
@@ -274,8 +271,9 @@ export default function AuthScreen({ currentUser, onLoginSuccess, onLogout }) {
             </div>
 
             <div className="form-group">
-              <label>10-Digit Mobile Number:</label>
+              <label htmlFor="reg-phone">10-Digit Mobile Number</label>
               <input
+                id="reg-phone"
                 type="tel"
                 className="text-input"
                 maxLength="10"
@@ -287,8 +285,9 @@ export default function AuthScreen({ currentUser, onLoginSuccess, onLogout }) {
             </div>
 
             <div className="form-group">
-              <label>Residential Ward / Locality:</label>
+              <label htmlFor="reg-area">Residential Ward / Locality</label>
               <select
+                id="reg-area"
                 className="select-input"
                 value={regData.assignedArea}
                 onChange={(e) => setRegData({ ...regData, assignedArea: e.target.value })}
@@ -296,15 +295,16 @@ export default function AuthScreen({ currentUser, onLoginSuccess, onLogout }) {
                 <option value="Ward 1 - Old Town Heritage">Ward 1 - Old Town Heritage</option>
                 <option value="Ward 2 - Lakeview Residency">Ward 2 - Lakeview Residency</option>
                 <option value="Ward 3 - Green Park Colony">Ward 3 - Green Park Colony</option>
-                <option value="Ward 4 - Industrial Area & Enclave">Ward 4 - Industrial Area & Enclave</option>
+                <option value="Ward 4 - Industrial Area & Enclave">Ward 4 - Industrial Area &amp; Enclave</option>
                 <option value="Ward 5 - Sunrise Heights">Ward 5 - Sunrise Heights</option>
                 <option value="Ward 6 - Riverside Extension">Ward 6 - Riverside Extension</option>
               </select>
             </div>
 
             <div className="form-group">
-              <label>Create Password (minimum 6 characters):</label>
+              <label htmlFor="reg-password">Create Password <span className="label-hint">(min. 6 characters)</span></label>
               <input
+                id="reg-password"
                 type="password"
                 className="text-input"
                 placeholder="At least 6 characters"
@@ -315,11 +315,58 @@ export default function AuthScreen({ currentUser, onLoginSuccess, onLogout }) {
             </div>
 
             <button type="submit" className="btn btn-primary btn-large" disabled={regLoading}>
-              {regLoading ? "Registering..." : "Create Citizen Account"}
+              {regLoading ? "⏳ Registering..." : "Create Citizen Account →"}
             </button>
+
+            <p className="auth-switch-hint">
+              Already have an account?{" "}
+              <button
+                type="button"
+                className="link-btn"
+                onClick={() => setActiveTab("login")}
+              >
+                Sign in here
+              </button>
+            </p>
           </form>
         )}
       </div>
+
+      {/* Credential Reference Table — read-only, no auto-login */}
+      <div className="cred-reference-box">
+        <h4 className="cred-ref-title">📋 Portal Role Credentials Reference</h4>
+        <p className="cred-ref-desc">
+          Use the email and password below to sign in manually for each role.
+        </p>
+        <div className="cred-ref-table-wrap">
+          <table className="cred-ref-table">
+            <thead>
+              <tr>
+                <th>Role</th>
+                <th>Email Address</th>
+                <th>Password</th>
+              </tr>
+            </thead>
+            <tbody>
+              {roleAccounts.map((acc) => (
+                <tr key={acc.role}>
+                  <td>
+                    <span className="cred-role-label" style={{ color: acc.color }}>
+                      {acc.icon} {acc.role}
+                    </span>
+                  </td>
+                  <td><code className="cred-code">{acc.email}</code></td>
+                  <td><code className="cred-code">{acc.password}</code></td>
+                </tr>
+              ))}
+            </tbody>
+          </table>
+        </div>
+        <p className="cred-ref-note">
+          ℹ️ Copy the credentials above and paste them into the Sign In form.
+        </p>
+      </div>
+
     </div>
   );
 }

@@ -1849,3 +1849,169 @@ body {
     grid-template-columns: 1fr;
   }
 }
+
+/* ==========================================================================
+   Manual Login UI — Password Toggle, Auth Form Header, Link Button
+   Credential Reference Table
+   ========================================================================== */
+
+/* Auth form header with centered icon */
+.auth-form-header {
+  text-align: center;
+  margin-bottom: 1.5rem;
+}
+.auth-form-icon {
+  font-size: 2.5rem;
+  margin-bottom: 0.5rem;
+}
+.auth-form-header h3 {
+  font-size: 1.4rem;
+  font-weight: 700;
+  color: var(--text-main);
+  margin-bottom: 0.4rem;
+}
+.auth-sub {
+  font-size: 0.875rem;
+  color: var(--text-muted);
+  line-height: 1.5;
+}
+
+/* Password input with show/hide toggle */
+.password-input-wrap {
+  position: relative;
+  display: flex;
+  align-items: center;
+}
+.password-input-wrap .text-input {
+  padding-right: 2.8rem;
+  flex: 1;
+}
+.password-toggle {
+  position: absolute;
+  right: 0.75rem;
+  background: none;
+  border: none;
+  cursor: pointer;
+  font-size: 1.1rem;
+  line-height: 1;
+  padding: 0.25rem;
+  color: var(--text-muted);
+  transition: color 0.2s;
+}
+.password-toggle:hover {
+  color: var(--primary);
+}
+
+/* Label hint (e.g. min chars note) */
+.label-hint {
+  font-size: 0.75rem;
+  font-weight: 400;
+  color: var(--text-muted);
+  margin-left: 0.3rem;
+}
+
+/* Switch tab hint (e.g. "New citizen? Create account") */
+.auth-switch-hint {
+  text-align: center;
+  font-size: 0.85rem;
+  color: var(--text-muted);
+  margin-top: 1rem;
+}
+.link-btn {
+  background: none;
+  border: none;
+  cursor: pointer;
+  color: var(--primary);
+  font-size: inherit;
+  font-weight: 600;
+  text-decoration: underline;
+  padding: 0;
+}
+.link-btn:hover {
+  color: var(--primary-hover);
+}
+
+/* ── Credential Reference Table ── */
+.cred-reference-box {
+  background: #fff;
+  border: 1.5px solid var(--border);
+  border-radius: var(--radius-lg);
+  padding: 1.5rem 1.75rem;
+  max-width: 700px;
+  margin: 2rem auto 0;
+  box-shadow: var(--shadow-sm);
+}
+.cred-ref-title {
+  font-size: 1rem;
+  font-weight: 700;
+  color: var(--text-main);
+  margin-bottom: 0.4rem;
+}
+.cred-ref-desc {
+  font-size: 0.85rem;
+  color: var(--text-muted);
+  margin-bottom: 1rem;
+}
+.cred-ref-table-wrap {
+  overflow-x: auto;
+}
+.cred-ref-table {
+  width: 100%;
+  border-collapse: collapse;
+  font-size: 0.875rem;
+}
+.cred-ref-table thead tr {
+  background: var(--primary-light);
+}
+.cred-ref-table th {
+  text-align: left;
+  padding: 0.6rem 1rem;
+  font-weight: 700;
+  color: var(--primary-dark);
+  border-bottom: 2px solid var(--border);
+}
+.cred-ref-table td {
+  padding: 0.65rem 1rem;
+  border-bottom: 1px solid var(--border);
+  vertical-align: middle;
+}
+.cred-ref-table tbody tr:last-child td {
+  border-bottom: none;
+}
+.cred-ref-table tbody tr:hover {
+  background: var(--bg-main);
+}
+.cred-role-label {
+  font-weight: 600;
+  font-size: 0.875rem;
+}
+.cred-code {
+  background: #f1f5f9;
+  border: 1px solid #e2e8f0;
+  border-radius: 4px;
+  padding: 0.15rem 0.5rem;
+  font-family: "Courier New", Courier, monospace;
+  font-size: 0.82rem;
+  color: #0f172a;
+  user-select: all;
+}
+.cred-ref-note {
+  font-size: 0.8rem;
+  color: var(--text-muted);
+  margin-top: 0.9rem;
+  text-align: center;
+}
+
+@media (max-width: 600px) {
+  .cred-reference-box {
+    padding: 1rem;
+  }
+  .cred-ref-table th,
+  .cred-ref-table td {
+    padding: 0.5rem 0.6rem;
+    font-size: 0.8rem;
+  }
+  .cred-code {
+    font-size: 0.75rem;
+  }
+}
