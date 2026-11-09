@@ -7,16 +7,26 @@ const ServiceUpdate = require("../models/serviceUpdate");
 const { seedUsers, seedSchedules, seedComplaints, seedUpdates } = require("./seedData");
 
 // In-Memory collections clone
-let memUsers = JSON.parse(JSON.stringify(seedUsers)).map((u) => ({
+let memUsers = JSON.parse(JSON.stringify(seedUsers)).map((u, i) => ({
+  _id: u._id || `usr_mem_${i + 1}`,
   ...u,
   comparePassword: async function (entered) {
     return bcrypt.compare(entered, this.password);
   },
 }));
 
-let memComplaints = JSON.parse(JSON.stringify(seedComplaints));
-let memSchedules = JSON.parse(JSON.stringify(seedSchedules));
-let memUpdates = JSON.parse(JSON.stringify(seedUpdates));
+let memComplaints = JSON.parse(JSON.stringify(seedComplaints)).map((c, i) => ({
+  _id: c._id || `cmp_mem_${i + 1}`,
+  ...c,
+}));
+let memSchedules = JSON.parse(JSON.stringify(seedSchedules)).map((s, i) => ({
+  _id: s._id || `sch_mem_${i + 1}`,
+  ...s,
+}));
+let memUpdates = JSON.parse(JSON.stringify(seedUpdates)).map((up, i) => ({
+  _id: up._id || `upd_mem_${i + 1}`,
+  ...up,
+}));
 
 // Helpers
 const matchesFilter = (item, filter = {}) => {
@@ -341,3 +351,4 @@ module.exports = {
   scheduleStore,
   serviceUpdateStore,
 };
+
