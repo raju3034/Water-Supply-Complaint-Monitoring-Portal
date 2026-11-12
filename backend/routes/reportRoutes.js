@@ -17,3 +17,4 @@ router.get("/water-schedule", getWaterSupplyScheduleReport);
 router.get("/resolution-time", getResolutionTimeReport);
 
 module.exports = router;
+

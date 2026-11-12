@@ -9,3 +9,4 @@ resources:
   - backend-deployment.yaml
   - frontend-deployment.yaml
   - ingress.yaml
+

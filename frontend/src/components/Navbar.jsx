@@ -89,3 +89,4 @@ export default function Navbar({ activeTab, setActiveTab, currentUser, onLogout 
     </header>
   );
 }
+

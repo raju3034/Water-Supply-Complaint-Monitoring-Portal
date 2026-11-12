@@ -379,3 +379,4 @@ export default function MyComplaintsScreen({ currentUser, onNavigate }) {
     </div>
   );
 }
+

@@ -286,3 +286,4 @@ The system has undergone systematic verification:
 | **4. Deployment Using Kubernetes** | Kubernetes Deployment & Service YAMLs, pods run properly, accessibility demonstrated. | `k8s/` manifests including Deployments, Services (NodePort + ClusterIP), PVC, ConfigMap, Secret, and Ingress. | **2 / 2 (Excellent)** |
 | **5. Project Documentation** | Complete documentation: objectives, architecture, database, API, setup, Docker, K8s. | Detailed Markdown documentation covering all rubric criteria, screenshots overview, API guide, and instructions. | **2 / 2 (Excellent)** |
 | **Total Evaluation Score** | Maximum 10 Marks | **Full compliance across all 5 evaluation components.** | **10 / 10** |
+

@@ -59,3 +59,4 @@ export default function DemoRoleBar({ onQuickLogin, currentUser }) {
     </div>
   );
 }
+

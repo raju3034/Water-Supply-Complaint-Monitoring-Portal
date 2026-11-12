@@ -5,3 +5,4 @@ metadata:
   labels:
     app.kubernetes.io/name: jalconnect-water-portal
     app.kubernetes.io/part-of: devops-course-project
+

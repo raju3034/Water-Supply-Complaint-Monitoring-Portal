@@ -287,3 +287,4 @@ export default function PublicScheduleScreen({ onNavigate, currentUser }) {
     </div>
   );
 }
+

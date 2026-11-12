@@ -62,3 +62,4 @@ const serviceUpdateSchema = new mongoose.Schema(
 );
 
 module.exports = mongoose.model("ServiceUpdate", serviceUpdateSchema);
+

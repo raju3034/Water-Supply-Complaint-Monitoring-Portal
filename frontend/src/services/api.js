@@ -75,3 +75,4 @@ export const api = {
     getResolutionTime: () => request("/reports/resolution-time"),
   },
 };
+

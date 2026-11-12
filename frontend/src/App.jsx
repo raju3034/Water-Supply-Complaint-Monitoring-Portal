@@ -73,7 +73,7 @@ function App() {
           <RegisterComplaintScreen
             currentUser={currentUser}
             onNavigate={(tab) => setActiveTab(tab)}
-            onComplaintRegistered={() => {}}
+            onComplaintRegistered={() => { }}
           />
         )}
 
@@ -135,7 +135,7 @@ function App() {
               Integrated Water Supply Complaint, Schedule Monitoring and Field Resolution Platform.
             </p>
             <p className="student-credit">
-              Project 56 | <strong>OM KARAM NARASIMHA RAJU</strong> (Roll No: 2303A53034)<br />
+              Project 56 | <strong>RAJU OMKARAM</strong> (Roll No: 2303A53034)<br />
               B.Tech IV Year I Sem | DevOps & Full Stack Development
             </p>
           </div>
