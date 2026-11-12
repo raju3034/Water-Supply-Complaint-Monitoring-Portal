@@ -1,0 +1,417 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Water Supply Complaint and Monitoring Portal - Project Report</title>
+  <style>
+    :root {
+      --primary: #0284c7;
+      --primary-dark: #075985;
+      --primary-light: #e0f2fe;
+      --text-main: #0f172a;
+      --text-muted: #475569;
+      --border: #cbd5e1;
+      --bg-card: #f8fafc;
+    }
+
+    * {
+      box-sizing: border-box;
+      margin: 0;
+      padding: 0;
+    }
+
+    body {
+      font-family: "Segoe UI", Roboto, Helvetica, Arial, sans-serif;
+      color: var(--text-main);
+      background: #e2e8f0;
+      line-height: 1.6;
+      padding: 24px 16px;
+    }
+
+    .toolbar {
+      max-width: 920px;
+      margin: 0 auto 16px;
+      display: flex;
+      justify-content: flex-end;
+      gap: 10px;
+    }
+
+    .print-btn {
+      background: var(--primary);
+      color: #ffffff;
+      border: none;
+      padding: 10px 18px;
+      border-radius: 8px;
+      font-size: 14px;
+      font-weight: 600;
+      cursor: pointer;
+      box-shadow: 0 2px 6px rgba(2, 132, 199, 0.25);
+    }
+
+    .print-btn:hover {
+      background: var(--primary-dark);
+    }
+
+    .report-page {
+      max-width: 920px;
+      margin: 0 auto;
+      background: #ffffff;
+      padding: 44px 48px;
+      border-radius: 10px;
+      box-shadow: 0 8px 30px rgba(15, 23, 42, 0.12);
+    }
+
+    /* Header: Top project name + right side below details */
+    .report-header {
+      border-bottom: 3px solid var(--primary);
+      padding-bottom: 18px;
+      margin-bottom: 28px;
+    }
+
+    .project-title {
+      font-size: 28px;
+      font-weight: 800;
+      color: var(--primary-dark);
+      letter-spacing: -0.3px;
+      text-align: center;
+      margin-bottom: 16px;
+    }
+
+    .student-details-row {
+      display: flex;
+      justify-content: flex-end;
+    }
+
+    .student-details-box {
+      background: var(--bg-card);
+      border: 1px solid var(--border);
+      border-left: 4px solid var(--primary);
+      border-radius: 6px;
+      padding: 10px 18px;
+      text-align: left;
+      min-width: 250px;
+      font-size: 14px;
+    }
+
+    .student-details-box p {
+      margin: 2px 0;
+      color: var(--text-main);
+    }
+
+    .student-details-box strong {
+      color: var(--primary-dark);
+      display: inline-block;
+      min-width: 68px;
+    }
+
+    h2 {
+      font-size: 19px;
+      color: var(--primary-dark);
+      border-left: 4px solid var(--primary);
+      padding-left: 10px;
+      margin: 26px 0 12px;
+      page-break-after: avoid;
+    }
+
+    h3 {
+      font-size: 16px;
+      color: #1e293b;
+      margin: 18px 0 8px;
+      page-break-after: avoid;
+    }
+
+    p {
+      font-size: 14px;
+      color: var(--text-muted);
+      margin-bottom: 10px;
+    }
+
+    ul {
+      margin: 8px 0 14px 22px;
+      font-size: 14px;
+      color: var(--text-muted);
+    }
+
+    li {
+      margin-bottom: 5px;
+    }
+
+    table {
+      width: 100%;
+      border-collapse: collapse;
+      margin: 12px 0 18px;
+      font-size: 13.5px;
+      page-break-inside: avoid;
+    }
+
+    th {
+      background: var(--primary-light);
+      color: var(--primary-dark);
+      text-align: left;
+      padding: 8px 12px;
+      border: 1px solid var(--border);
+      font-weight: 700;
+    }
+
+    td {
+      padding: 8px 12px;
+      border: 1px solid var(--border);
+      color: var(--text-main);
+      vertical-align: top;
+    }
+
+    .role-section {
+      margin-top: 20px;
+      padding: 16px 18px;
+      background: #f8fafc;
+      border: 1px solid #e2e8f0;
+      border-radius: 8px;
+    }
+
+    .role-badge {
+      display: inline-block;
+      padding: 3px 10px;
+      border-radius: 999px;
+      font-size: 12px;
+      font-weight: 700;
+      margin-bottom: 8px;
+    }
+
+    .badge-citizen { background: #dcfce7; color: #166534; }
+    .badge-admin { background: #e0e7ff; color: #3730a3; }
+    .badge-tech { background: #fef3c7; color: #92400e; }
+
+    figure.screenshot-card {
+      margin: 14px 0 20px;
+      padding: 12px;
+      background: #ffffff;
+      border: 1px solid var(--border);
+      border-radius: 8px;
+      text-align: center;
+      page-break-inside: avoid;
+    }
+
+    figure.screenshot-card img {
+      max-width: 100%;
+      max-height: 440px;
+      object-fit: contain;
+      border: 1px solid #e2e8f0;
+      border-radius: 4px;
+      display: block;
+      margin: 0 auto 8px;
+    }
+
+    figcaption {
+      font-size: 12.5px;
+      color: var(--text-muted);
+      font-style: italic;
+    }
+
+    .report-footer {
+      margin-top: 32px;
+      padding-top: 14px;
+      border-top: 1px solid var(--border);
+      text-align: center;
+      font-size: 12.5px;
+      color: var(--text-muted);
+    }
+
+    @media print {
+      body {
+        background: #ffffff;
+        padding: 0;
+      }
+      .toolbar {
+        display: none;
+      }
+      .report-page {
+        box-shadow: none;
+        padding: 0;
+        max-width: 100%;
+      }
+      .role-section {
+        background: #ffffff;
+      }
+    }
+
+    @page {
+      size: A4;
+      margin: 13mm 14mm;
+    }
+  </style>
+</head>
+<body>
+
+  <div class="toolbar">
+    <button class="print-btn" onclick="window.print()">🖨️ Print / Save as PDF</button>
+  </div>
+
+  <div class="report-page">
+    <!-- TOP HEADER -->
+    <header class="report-header">
+      <h1 class="project-title">Water Supply Complaint and Monitoring Portal</h1>
+      <div class="student-details-row">
+        <div class="student-details-box">
+          <p><strong>Name:</strong> O.Narasimha Raju</p>
+          <p><strong>Roll.No:</strong> 2303A53034</p>
+          <p><strong>Batch:</strong> 46</p>
+        </div>
+      </div>
+    </header>
+
+    <!-- 1. EXECUTIVE SUMMARY -->
+    <section>
+      <h2>1. Project Overview &amp; Objectives</h2>
+      <p>
+        <strong>JalConnect — Water Supply Complaint and Monitoring Portal</strong> is a full-stack DevOps and web
+        application built to streamline municipal water distribution monitoring, citizen grievance registration,
+        officer task dispatching, and field technician resolution tracking.
+      </p>
+      <ul>
+        <li><strong>Transparency for Citizens:</strong> Real-time ward-level water supply schedules, outage advisories, and live 4-stage complaint tracking.</li>
+        <li><strong>Operational Control for Admin &amp; Officers:</strong> KPI monitoring dashboard, priority-based SLA assignment, and technician dispatch workflows.</li>
+        <li><strong>Field Accountability for Technicians:</strong> Structured field resolution portal to record repair actions, materials consumed, and completion status.</li>
+        <li><strong>DevOps Readiness:</strong> Containerized with Docker &amp; Docker Compose, orchestrated with Kubernetes manifests, and version-controlled in Git.</li>
+      </ul>
+    </section>
+
+    <!-- 2. TECHNOLOGY STACK -->
+    <section>
+      <h2>2. Architecture &amp; Technology Stack</h2>
+      <table>
+        <thead>
+          <tr>
+            <th>Layer</th>
+            <th>Technologies Used</th>
+            <th>Purpose</th>
+          </tr>
+        </thead>
+        <tbody>
+          <tr>
+            <td><strong>Frontend</strong></td>
+            <td>React 19, Vite 8, Responsive CSS</td>
+            <td>9 role-based interactive screens with manual JWT authentication</td>
+          </tr>
+          <tr>
+            <td><strong>Backend API</strong></td>
+            <td>Node.js, Express 5, JWT, bcryptjs</td>
+            <td>RESTful APIs for auth, complaints, schedules, alerts, and 4 reports</td>
+          </tr>
+          <tr>
+            <td><strong>Database</strong></td>
+            <td>MongoDB 8.0 (Mongoose) + In-Memory Fallback</td>
+            <td>Persistent storage with automatic resilient fallback store</td>
+          </tr>
+          <tr>
+            <td><strong>Containerization</strong></td>
+            <td>Docker, Multi-stage Nginx, Docker Compose</td>
+            <td>Isolated multi-container stack with service healthchecks</td>
+          </tr>
+          <tr>
+            <td><strong>Orchestration</strong></td>
+            <td>Kubernetes (Deployments, Services, PVC, Ingress)</td>
+            <td>Scalable cluster deployment in the <code>water-portal</code> namespace</td>
+          </tr>
+        </tbody>
+      </table>
+    </section>
+
+    <!-- 3. ROLE-BASED SCREENSHOTS -->
+    <section>
+      <h2>3. Role-Based Application Walkthrough &amp; Screenshots</h2>
+
+      <!-- 3.1 CITIZEN -->
+      <div class="role-section">
+        <span class="role-badge badge-citizen">👤 CITIZEN MODULE</span>
+        <h3>3.1 Citizen Portal — Complaint Lookup &amp; Live Progress Tracking</h3>
+        <p>
+          Citizens can lodge water complaints (Leakage, Water Shortage, Water Quality, Low Pressure, Pipeline Damage),
+          look up any ticket publicly by Complaint ID or mobile number, and track their complaints across a 4-stage
+          visual stepper (<em>Grievance Logged &rarr; Officer Assigned &rarr; Technician Dispatched &rarr; Resolved &amp; Verified</em>).
+        </p>
+
+        <figure class="screenshot-card">
+          <img src="docs/screenshots/citizen_lookup.png" alt="Citizen Instant Complaint Status Lookup" />
+          <figcaption>Figure 1: Public / Citizen Instant Complaint Status Lookup showing ticket CMP-802654 in progress.</figcaption>
+        </figure>
+
+        <figure class="screenshot-card">
+          <img src="docs/screenshots/citizen_tracker_inprogress.png" alt="Citizen Complaint History Filtered by In Progress" />
+          <figcaption>Figure 2: Citizen Complaint History &amp; Live Progress Tracker displaying the 4-stage visual stepper.</figcaption>
+        </figure>
+
+        <figure class="screenshot-card">
+          <img src="docs/screenshots/citizen_tracker_all.png" alt="Citizen Complaint History All Tickets View" />
+          <figcaption>Figure 3: Citizen Grievance History showing all submitted tickets and audit history buttons.</figcaption>
+        </figure>
+      </div>
+
+      <!-- 3.2 ADMIN -->
+      <div class="role-section">
+        <span class="role-badge badge-admin">👑 ADMIN MODULE</span>
+        <h3>3.2 Admin Portal — KPI Monitoring Dashboard &amp; Technician Dispatch</h3>
+        <p>
+          Administrators have full oversight over municipal operations through the KPI Monitoring Dashboard
+          (total complaints, resolution rate, active workload, critical unresolved issues, average resolution time)
+          and can filter, prioritize, and assign field technicians with target SLA dates.
+        </p>
+
+        <figure class="screenshot-card">
+          <img src="docs/screenshots/admin_dashboard.jpg" alt="Admin KPI Dashboard" />
+          <figcaption>Figure 4: Admin Water Grid Monitoring &amp; Complaint Dashboard with KPI metrics, distribution charts, and high-priority queue.</figcaption>
+        </figure>
+
+        <figure class="screenshot-card">
+          <img src="docs/screenshots/admin_grievance_management.jpg" alt="Admin Grievance Management Console" />
+          <figcaption>Figure 5: Admin Grievance Management &amp; Technician Dispatch console with multi-criteria filters.</figcaption>
+        </figure>
+
+        <figure class="screenshot-card">
+          <img src="docs/screenshots/admin_assign_modal.png" alt="Admin Assign Technician Modal" />
+          <figcaption>Figure 6: Admin Assigning Field Technician Rajesh Kumar to ticket CMP-2026-1003 with target SLA and dispatch notes.</figcaption>
+        </figure>
+      </div>
+
+      <!-- 3.3 TECHNICIAN -->
+      <div class="role-section">
+        <span class="role-badge badge-tech">🔧 FIELD TECHNICIAN MODULE</span>
+        <h3>3.3 Field Technician Portal — Schedules, Advisories &amp; Field Tasks</h3>
+        <p>
+          Field Technicians sign in with role-based credentials to view ward-level water supply schedules, active
+          maintenance advisories, and their dedicated <em>My Field Tasks</em> queue where they log on-site actions,
+          materials consumed, and mark tickets resolved.
+        </p>
+
+        <figure class="screenshot-card">
+          <img src="docs/screenshots/technician_view.jpg" alt="Field Technician View" />
+          <figcaption>Figure 7: Field Technician (Rajesh Kumar) signed into the portal viewing Live Service Updates and Area-wise Water Supply Schedules.</figcaption>
+        </figure>
+      </div>
+    </section>
+
+    <!-- 4. MANDATORY REPORTS -->
+    <section>
+      <h2>4. Mandatory Reports &amp; DevOps Implementation</h2>
+      <p>The application implements all 4 required operational reports with CSV export and print-ready PDF views:</p>
+      <ul>
+        <li><strong>Complaint Status Report:</strong> Distribution across Pending, Assigned, In Progress, and Resolved states alongside priority and category breakdowns.</li>
+        <li><strong>Area-wise Complaint Report:</strong> Ward-by-ward grievance volume, open backlog, resolution efficiency, and zone health rating.</li>
+        <li><strong>Water Supply Schedule Report:</strong> On-time compliance rate, delayed schedules, feeder sources, and pressure levels across wards.</li>
+        <li><strong>Resolution Time Report:</strong> Average turnaround time in hours, category benchmarks, and technician performance leaderboard.</li>
+      </ul>
+      <p>
+        <strong>DevOps Pipeline:</strong> Both backend (Node.js 22 Alpine) and frontend (multi-stage Nginx) include
+        <code>Dockerfile</code> definitions orchestrated via <code>docker-compose.yml</code> alongside production-ready
+        Kubernetes manifests in <code>k8s/</code> (<code>Namespace</code>, <code>Deployment</code>, <code>Service</code>,
+        <code>PersistentVolumeClaim</code>, <code>ConfigMap</code>, <code>Secret</code>, and <code>Ingress</code>).
+      </p>
+    </section>
+
+    <footer class="report-footer">
+      Water Supply Complaint and Monitoring Portal &bull; Submitted by O.Narasimha Raju (2303A53034, Batch 46)
+    </footer>
+  </div>
+
+</body>
+</html>

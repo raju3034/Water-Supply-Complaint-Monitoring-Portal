@@ -134,10 +134,6 @@ function App() {
             <p>
               Integrated Water Supply Complaint, Schedule Monitoring and Field Resolution Platform.
             </p>
-            <p className="student-credit">
-              Project 56 | <strong>RAJU OMKARAM</strong> (Roll No: 2303A53034)<br />
-              B.Tech IV Year I Sem | DevOps & Full Stack Development
-            </p>
           </div>
 
           <div className="footer-col">
