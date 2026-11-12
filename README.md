@@ -4,7 +4,7 @@
 > **Course:** DevOps & Full Stack Development  
 > **Institution:** SR UNIVERSITY | School of Computer Science & AI  
 > **Project #56:** Water Supply Complaint and Monitoring Portal  
-> **Student Name:** OM KARAM NARASIMHA RAJU  
+> **Student Name:** OMKARAM NARASIMHA RAJU  
 > **Enrolment No:** 2303A53034  
 
 ---
