@@ -112,7 +112,6 @@ function App() {
             onLoginSuccess={handleLoginSuccess}
             onLogout={handleLogout}
             initialTab={authConfig.initialTab}
-            redirectMessage={authConfig.redirectMessage}
           />
         )}
 
