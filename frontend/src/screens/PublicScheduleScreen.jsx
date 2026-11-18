@@ -96,28 +96,6 @@ export default function PublicScheduleScreen({ onNavigate, currentUser }) {
               🔍 Track Complaint by ID
             </button>
           </div>
-
-          {!currentUser && (
-            <div className="hero-auth-alert">
-              <span>📢 <strong>Citizen Notice:</strong> You must sign in or register to lodge a complaint or track your complaints.</span>
-              <div className="hero-auth-alert-actions">
-                <button
-                  type="button"
-                  className="btn btn-sm btn-light"
-                  onClick={() => onNavigate("auth", { initialTab: "login", returnTab: "register-complaint" })}
-                >
-                  Sign In
-                </button>
-                <button
-                  type="button"
-                  className="btn btn-sm btn-outline-light"
-                  onClick={() => onNavigate("auth", { initialTab: "register", returnTab: "register-complaint" })}
-                >
-                  Register
-                </button>
-              </div>
-            </div>
-          )}
         </div>
       </section>
 
