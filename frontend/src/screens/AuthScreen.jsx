@@ -1,8 +1,14 @@
 import React, { useState } from "react";
 import { api } from "../services/api";
 
-export default function AuthScreen({ currentUser, onLoginSuccess, onLogout }) {
-  const [activeTab, setActiveTab] = useState("login"); // 'login' or 'register'
+export default function AuthScreen({ currentUser, onLoginSuccess, onLogout, initialTab = "login", redirectMessage = "" }) {
+  const [activeTab, setActiveTab] = useState(initialTab); // 'login' or 'register'
+
+  React.useEffect(() => {
+    if (initialTab) {
+      setActiveTab(initialTab);
+    }
+  }, [initialTab]);
 
   // Login form
   const [loginEmail, setLoginEmail] = useState("");
@@ -95,6 +101,16 @@ export default function AuthScreen({ currentUser, onLoginSuccess, onLogout }) {
             <button type="button" className="btn btn-secondary" onClick={onLogout}>
               🚪 Sign Out from Account
             </button>
+          </div>
+        </div>
+      )}
+
+      {/* Notice when redirected to login/register */}
+      {redirectMessage && (
+        <div className="auth-redirect-notice">
+          <span className="notice-icon">📢</span>
+          <div className="notice-text">
+            <strong>Citizen Authentication Required:</strong> {redirectMessage}
           </div>
         </div>
       )}

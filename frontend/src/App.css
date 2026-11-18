@@ -2015,3 +2015,332 @@ body {
     font-size: 0.75rem;
   }
 }
+
+/* ==========================================================================
+   Citizen Auth Gate, Escalation Reports, and Public Lookup Styles
+   ========================================================================== */
+
+/* Auth Gate Card (Lodge Complaint / Track Complaints lock) */
+.auth-gate-card {
+  max-width: 680px;
+  margin: 32px auto;
+  background: #ffffff;
+  border: 1.5px solid var(--border);
+  border-top: 5px solid var(--primary);
+  border-radius: var(--radius-lg);
+  padding: 36px 32px;
+  text-align: center;
+  box-shadow: var(--shadow-md);
+}
+
+.auth-gate-icon {
+  font-size: 3rem;
+  margin-bottom: 12px;
+}
+
+.auth-gate-badge {
+  display: inline-block;
+  background: var(--primary-light);
+  color: var(--primary-dark);
+  font-size: 11px;
+  font-weight: 800;
+  letter-spacing: 0.5px;
+  padding: 4px 12px;
+  border-radius: 999px;
+  margin-bottom: 12px;
+}
+
+.auth-gate-title {
+  font-size: 24px;
+  font-weight: 800;
+  color: var(--text-main);
+  margin-bottom: 12px;
+}
+
+.auth-gate-desc {
+  font-size: 15px;
+  color: var(--text-muted);
+  line-height: 1.6;
+  max-width: 560px;
+  margin: 0 auto 24px;
+}
+
+.auth-gate-actions {
+  display: flex;
+  gap: 14px;
+  justify-content: center;
+  flex-wrap: wrap;
+  margin-bottom: 24px;
+}
+
+.auth-gate-benefits {
+  background: var(--bg-main);
+  border: 1px dashed var(--border);
+  border-radius: var(--radius-md);
+  padding: 18px 24px;
+  text-align: left;
+  max-width: 540px;
+  margin: 0 auto;
+}
+
+.auth-gate-benefits h4 {
+  font-size: 13px;
+  font-weight: 700;
+  color: var(--primary-dark);
+  margin-bottom: 8px;
+}
+
+.auth-gate-benefits ul {
+  padding-left: 20px;
+  margin: 0;
+  font-size: 13px;
+  color: var(--text-muted);
+  line-height: 1.6;
+}
+
+/* Auth Screen Redirect Notice */
+.auth-redirect-notice {
+  max-width: 520px;
+  margin: 0 auto 18px;
+  background: #eff6ff;
+  border: 1.5px solid #93c5fd;
+  border-radius: var(--radius-md);
+  padding: 14px 18px;
+  display: flex;
+  align-items: center;
+  gap: 12px;
+  box-shadow: var(--shadow-sm);
+}
+
+.auth-redirect-notice .notice-icon {
+  font-size: 1.5rem;
+}
+
+.auth-redirect-notice .notice-text {
+  font-size: 13.5px;
+  color: #1e40af;
+  line-height: 1.4;
+}
+
+/* Hero Auth Notice */
+.hero-auth-alert {
+  margin-top: 20px;
+  padding: 12px 18px;
+  background: rgba(255, 255, 255, 0.15);
+  border: 1px solid rgba(255, 255, 255, 0.3);
+  backdrop-filter: blur(6px);
+  border-radius: var(--radius-md);
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 16px;
+  flex-wrap: wrap;
+  color: #ffffff;
+  font-size: 13.5px;
+}
+
+.hero-auth-alert-actions {
+  display: flex;
+  gap: 8px;
+}
+
+.btn-light {
+  background: #ffffff;
+  color: var(--primary-dark);
+  font-weight: 700;
+  border: none;
+  border-radius: var(--radius-sm);
+  padding: 6px 14px;
+  cursor: pointer;
+}
+
+.btn-light:hover {
+  background: #f1f5f9;
+}
+
+.btn-outline-light {
+  background: transparent;
+  color: #ffffff;
+  border: 1.5px solid #ffffff;
+  font-weight: 700;
+  border-radius: var(--radius-sm);
+  padding: 6px 14px;
+  cursor: pointer;
+}
+
+.btn-outline-light:hover {
+  background: rgba(255, 255, 255, 0.2);
+}
+
+/* Unresolved Status Row & Escalation Button */
+.unresolved-status-row {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  flex-wrap: wrap;
+  gap: 12px;
+  flex: 1;
+}
+
+.btn-danger-outline {
+  background: #fff;
+  color: #dc2626;
+  border: 1.5px solid #f87171;
+  padding: 6px 14px;
+  border-radius: var(--radius-sm);
+  font-size: 12.5px;
+  font-weight: 700;
+  cursor: pointer;
+  transition: all 0.2s ease;
+  display: inline-flex;
+  align-items: center;
+  gap: 6px;
+}
+
+.btn-danger-outline:hover {
+  background: #fef2f2;
+  border-color: #dc2626;
+  color: #b91c1c;
+  transform: translateY(-1px);
+}
+
+.card-escalated {
+  border-left: 5px solid #dc2626 !important;
+}
+
+.escalation-badge {
+  background: #fee2e2;
+  color: #991b1b;
+  border: 1px solid #fca5a5;
+  font-size: 11px;
+  font-weight: 800;
+  padding: 3px 8px;
+  border-radius: 4px;
+  letter-spacing: 0.3px;
+}
+
+.escalation-notice-box {
+  margin-top: 10px;
+  padding: 10px 14px;
+  background: #fff1f2;
+  border: 1px solid #fecdd3;
+  border-radius: var(--radius-sm);
+  font-size: 13px;
+  color: #9f1239;
+}
+
+.escalation-notice-box strong {
+  color: #881337;
+  display: block;
+  margin-bottom: 2px;
+}
+
+/* Escalation Modal Form */
+.escalate-modal-header {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  flex-wrap: wrap;
+  gap: 10px;
+  padding: 10px 14px;
+  background: var(--bg-main);
+  border: 1px solid var(--border);
+  border-radius: var(--radius-sm);
+  margin-bottom: 14px;
+  font-size: 13px;
+}
+
+.escalation-action-consequences {
+  margin: 12px 0 18px;
+  padding: 10px 14px;
+  background: #fef3c7;
+  border: 1px solid #fde68a;
+  border-radius: var(--radius-sm);
+  color: #92400e;
+  font-size: 12.5px;
+  line-height: 1.5;
+}
+
+/* Quick Ticket Lookup in Gate */
+.quick-lookup-divider {
+  display: flex;
+  align-items: center;
+  text-align: center;
+  margin: 28px 0 18px;
+  color: var(--text-muted);
+  font-size: 11.5px;
+  font-weight: 700;
+  letter-spacing: 0.5px;
+}
+
+.quick-lookup-divider::before,
+.quick-lookup-divider::after {
+  content: "";
+  flex: 1;
+  border-bottom: 1px solid var(--border);
+}
+
+.quick-lookup-divider span {
+  padding: 0 12px;
+}
+
+.guest-lookup-form {
+  max-width: 520px;
+  margin: 0 auto;
+}
+
+.lookup-input-wrap {
+  display: flex;
+  gap: 8px;
+}
+
+.guest-lookup-results {
+  margin-top: 20px;
+  text-align: left;
+}
+
+.guest-lookup-results h4 {
+  font-size: 14px;
+  font-weight: 700;
+  color: var(--text-main);
+  margin-bottom: 10px;
+}
+
+.quick-ticket-card {
+  background: #f8fafc;
+  border: 1px solid var(--border);
+  border-radius: var(--radius-md);
+  padding: 16px;
+  margin-bottom: 12px;
+  font-size: 13.5px;
+}
+
+.quick-ticket-header {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  margin-bottom: 8px;
+  font-size: 15px;
+}
+
+.quick-ticket-cta {
+  margin-top: 12px;
+  padding-top: 10px;
+  border-top: 1px dashed var(--border);
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  flex-wrap: wrap;
+  gap: 10px;
+}
+
+.tracker-result-cta {
+  margin-top: 10px;
+  padding-top: 10px;
+  border-top: 1px dashed var(--border);
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  flex-wrap: wrap;
+  gap: 8px;
+}

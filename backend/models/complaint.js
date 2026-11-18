@@ -113,6 +113,22 @@ const complaintSchema = new mongoose.Schema(
       type: String,
       default: "",
     },
+    isEscalated: {
+      type: Boolean,
+      default: false,
+    },
+    escalationReason: {
+      type: String,
+      default: "",
+    },
+    escalationDetails: {
+      type: String,
+      default: "",
+    },
+    lastEscalatedAt: {
+      type: Date,
+      default: null,
+    },
     statusHistory: [
       {
         status: { type: String, required: true },

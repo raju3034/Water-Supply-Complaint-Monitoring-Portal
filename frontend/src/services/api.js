@@ -44,6 +44,7 @@ export const api = {
     assign: (id, assignmentData) => request(`/complaints/${id}/assign`, { method: "PATCH", body: JSON.stringify(assignmentData) }),
     resolve: (id, resolutionData) => request(`/complaints/${id}/resolution`, { method: "PATCH", body: JSON.stringify(resolutionData) }),
     feedback: (id, feedbackData) => request(`/complaints/${id}/feedback`, { method: "PATCH", body: JSON.stringify(feedbackData) }),
+    reportUnresolved: (id, reportData) => request(`/complaints/${id}/report-unresolved`, { method: "PATCH", body: JSON.stringify(reportData) }),
     getStats: () => request("/complaints/stats"),
   },
 

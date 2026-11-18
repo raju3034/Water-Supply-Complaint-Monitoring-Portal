@@ -9,6 +9,7 @@ const {
   assignComplaint,
   updateResolution,
   submitFeedback,
+  reportUnresolved,
   getStats,
 } = require("../controllers/complaintController");
 
@@ -49,5 +50,8 @@ router.patch(
 
 // Citizen feedback endpoint
 router.patch("/:id/feedback", protect, submitFeedback);
+
+// Citizen report unresolved / delay escalation endpoint
+router.patch("/:id/report-unresolved", protect, reportUnresolved);
 
 module.exports = router;

@@ -16,6 +16,22 @@ import ReportsScreen from "./screens/ReportsScreen";
 function App() {
   const [currentUser, setCurrentUser] = useState(null);
   const [activeTab, setActiveTab] = useState("schedules");
+  const [authConfig, setAuthConfig] = useState({ initialTab: "login", redirectMessage: "" });
+  const [returnAfterLogin, setReturnAfterLogin] = useState(null);
+
+  // Unified navigator supporting optional auth configs
+  const navigateTo = (tab, config = {}) => {
+    if (tab === "auth") {
+      setAuthConfig({
+        initialTab: config.initialTab || "login",
+        redirectMessage: config.redirectMessage || "",
+      });
+      if (config.returnTab) {
+        setReturnAfterLogin(config.returnTab);
+      }
+    }
+    setActiveTab(tab);
+  };
 
   // Restore authenticated user on mount
   useEffect(() => {
@@ -31,9 +47,15 @@ function App() {
     }
   }, []);
 
-  // Quick 1-click login handler removed — manual login only
   const handleLoginSuccess = (user) => {
     setCurrentUser(user);
+    if (returnAfterLogin && user.role === "Citizen") {
+      const destination = returnAfterLogin;
+      setReturnAfterLogin(null);
+      setActiveTab(destination);
+      return;
+    }
+
     if (user.role === "Admin" || user.role === "Water Department Officer") {
       setActiveTab("dashboard");
     } else if (user.role === "Field Technician") {
@@ -55,7 +77,7 @@ function App() {
       {/* Main Navigation Header */}
       <Navbar
         activeTab={activeTab}
-        setActiveTab={setActiveTab}
+        setActiveTab={navigateTo}
         currentUser={currentUser}
         onLogout={handleLogout}
       />
@@ -65,14 +87,14 @@ function App() {
         {activeTab === "schedules" && (
           <PublicScheduleScreen
             currentUser={currentUser}
-            onNavigate={(tab) => setActiveTab(tab)}
+            onNavigate={navigateTo}
           />
         )}
 
         {activeTab === "register-complaint" && (
           <RegisterComplaintScreen
             currentUser={currentUser}
-            onNavigate={(tab) => setActiveTab(tab)}
+            onNavigate={navigateTo}
             onComplaintRegistered={() => { }}
           />
         )}
@@ -80,7 +102,7 @@ function App() {
         {activeTab === "my-complaints" && (
           <MyComplaintsScreen
             currentUser={currentUser}
-            onNavigate={(tab) => setActiveTab(tab)}
+            onNavigate={navigateTo}
           />
         )}
 
@@ -89,6 +111,8 @@ function App() {
             currentUser={currentUser}
             onLoginSuccess={handleLoginSuccess}
             onLogout={handleLogout}
+            initialTab={authConfig.initialTab}
+            redirectMessage={authConfig.redirectMessage}
           />
         )}
 

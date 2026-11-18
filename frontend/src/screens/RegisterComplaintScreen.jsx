@@ -91,6 +91,99 @@ export default function RegisterComplaintScreen({ currentUser, onComplaintRegist
     "Ward 6 - Riverside Extension",
   ];
 
+  // 1. Unauthenticated Guest: Must Sign In or Register as Citizen
+  if (!currentUser) {
+    return (
+      <div className="screen-container">
+        <div className="auth-gate-card">
+          <div className="auth-gate-icon">🔒</div>
+          <span className="auth-gate-badge">CITIZEN AUTHENTICATION REQUIRED</span>
+          <h2 className="auth-gate-title">Please Sign In or Register to Lodge a Complaint</h2>
+          <p className="auth-gate-desc">
+            To prevent unverified entries, maintain accountable municipal audit trails, and enable real-time tracking of technician dispatch, citizens must be signed in to submit water grievances.
+          </p>
+
+          <div className="auth-gate-actions">
+            <button
+              type="button"
+              className="btn btn-primary btn-large"
+              onClick={() =>
+                onNavigate("auth", {
+                  initialTab: "login",
+                  returnTab: "register-complaint",
+                  redirectMessage: "Please sign in to lodge your water supply complaint.",
+                })
+              }
+            >
+              🔐 Sign In to Lodge Complaint
+            </button>
+            <button
+              type="button"
+              className="btn btn-secondary btn-large"
+              onClick={() =>
+                onNavigate("auth", {
+                  initialTab: "register",
+                  returnTab: "register-complaint",
+                  redirectMessage: "Create an account in 30 seconds to lodge water complaints.",
+                })
+              }
+            >
+              📝 Register New Citizen Account
+            </button>
+          </div>
+
+          <div className="auth-gate-benefits">
+            <h4>✨ Citizen Account Privileges:</h4>
+            <ul>
+              <li>Direct tracking of pipeline leakage and water shortage tickets</li>
+              <li>SMS and portal updates when technicians are dispatched</li>
+              <li>Option to report unresolved delays or escalate priority</li>
+              <li>Satisfaction rating and feedback submission upon repair</li>
+            </ul>
+          </div>
+        </div>
+      </div>
+    );
+  }
+
+  // 2. Logged in as Staff/Admin: Restrict to Citizen role
+  if (currentUser.role !== "Citizen") {
+    return (
+      <div className="screen-container">
+        <div className="auth-gate-card">
+          <div className="auth-gate-icon">⚠️</div>
+          <span className="auth-gate-badge">STAFF ACCOUNT DETECTED</span>
+          <h2 className="auth-gate-title">Citizen Role Required to Lodge Grievances</h2>
+          <p className="auth-gate-desc">
+            You are currently signed in as <strong>{currentUser.name}</strong> ({currentUser.role}). Public grievances must be logged by verified citizen consumers.
+          </p>
+          <div className="auth-gate-actions">
+            <button
+              type="button"
+              className="btn btn-primary"
+              onClick={() => onNavigate(currentUser.role === "Field Technician" ? "technician-tasks" : "dashboard")}
+            >
+              ← Back to Staff Operations
+            </button>
+            <button
+              type="button"
+              className="btn btn-outline"
+              onClick={() =>
+                onNavigate("auth", {
+                  initialTab: "login",
+                  returnTab: "register-complaint",
+                  redirectMessage: "Sign in with a Citizen account to lodge a complaint.",
+                })
+              }
+            >
+              Switch Account
+            </button>
+          </div>
+        </div>
+      </div>
+    );
+  }
+
   return (
     <div className="screen-container">
       <div className="form-card-wrapper">
@@ -98,8 +191,7 @@ export default function RegisterComplaintScreen({ currentUser, onComplaintRegist
           <div className="form-badge">CITIZEN GRIEVANCE PORTAL</div>
           <h2 className="form-title">📝 Register Water Supply Complaint</h2>
           <p className="form-subtitle">
-            Promptly notify municipal water engineers about leakages, supply shortages, or water quality issues.
-            A unique tracking number will be issued immediately upon submission.
+            Logged in as <strong>{currentUser.name}</strong> ({currentUser.email || currentUser.phone}). Your ticket will be dispatched to municipal technicians.
           </p>
         </div>
 

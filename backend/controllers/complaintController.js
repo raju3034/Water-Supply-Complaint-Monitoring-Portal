@@ -320,7 +320,73 @@ const submitFeedback = async (req, res) => {
   }
 };
 
-// 8. General KPI metrics for dashboard
+// 8. Report unresolved / delay escalation by citizen
+const reportUnresolved = async (req, res) => {
+  try {
+    const { id } = req.params;
+    const { reason, details } = req.body;
+
+    if (!reason || !reason.trim()) {
+      return res.status(400).json({
+        success: false,
+        message: "Please select or provide a reason for the report.",
+      });
+    }
+
+    const complaint = await complaintStore.findById(id);
+    if (!complaint) {
+      return res.status(404).json({ success: false, message: "Complaint not found" });
+    }
+
+    if (complaint.status === "Resolved") {
+      return res.status(400).json({
+        success: false,
+        message: "This complaint is already marked as resolved. You can submit satisfaction feedback or register a new complaint.",
+      });
+    }
+
+    const reporterName = req.user ? req.user.name : (complaint.citizenName || "Citizen");
+    const escalationNote = `Citizen Escalation Report: [${reason.trim()}] ${details ? details.trim() : ""}`;
+
+    const updatedHistory = [
+      ...(complaint.statusHistory || []),
+      {
+        status: complaint.status,
+        updatedBy: reporterName,
+        role: "Citizen",
+        timestamp: new Date(),
+        note: escalationNote,
+      },
+    ];
+
+    // Bump priority if it was Low or Medium
+    let newPriority = complaint.priority;
+    if (complaint.priority === "Low" || complaint.priority === "Medium") {
+      newPriority = "High";
+    } else if (complaint.priority === "High") {
+      newPriority = "Critical";
+    }
+
+    const updated = await complaintStore.findByIdAndUpdate(complaint._id || complaint.id, {
+      isEscalated: true,
+      escalationReason: reason.trim(),
+      escalationDetails: details ? details.trim() : "",
+      lastEscalatedAt: new Date(),
+      priority: newPriority,
+      statusHistory: updatedHistory,
+    });
+
+    res.status(200).json({
+      success: true,
+      message: "Unresolved complaint report filed successfully! Priority escalated for immediate action.",
+      data: updated,
+    });
+  } catch (error) {
+    res.status(500).json({ success: false, message: error.message });
+  }
+};
+
+// 9. General KPI metrics for dashboard
 const getStats = async (req, res) => {
   try {
     const all = await complaintStore.find();
@@ -362,5 +428,6 @@ module.exports = {
   assignComplaint,
   updateResolution,
   submitFeedback,
+  reportUnresolved,
   getStats,
 };
