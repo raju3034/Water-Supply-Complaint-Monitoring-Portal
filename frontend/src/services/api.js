@@ -13,12 +13,21 @@ const request = async (endpoint, options = {}) => {
   const url = `${API_BASE}${endpoint}`;
   try {
     const res = await fetch(url, { ...options, headers });
-    const data = await res.json();
+    let data;
+    const text = await res.text();
+    try {
+      data = text ? JSON.parse(text) : {};
+    } catch {
+      throw new Error(`Backend server error (status ${res.status}). Please verify the backend is running.`);
+    }
     if (!res.ok) {
       throw new Error(data.message || `Request failed with status ${res.status}`);
     }
     return data;
   } catch (err) {
+    if (err.name === "TypeError" && err.message.includes("fetch")) {
+      throw new Error("Unable to connect to backend server. Please make sure the backend is running on port 5000.");
+    }
     console.error(`API Error on ${endpoint}:`, err.message);
     throw err;
   }
