@@ -3,6 +3,13 @@ const { complaintStore, userStore } = require("../data/store");
 // 1. Create a new complaint
 const createComplaint = async (req, res) => {
   try {
+    if (!req.user || (req.user.role !== "Citizen" && req.user.role !== "Admin")) {
+      return res.status(403).json({
+        success: false,
+        message: "Citizen login required. Please sign in or register as a citizen to lodge a complaint.",
+      });
+    }
+
     const {
       citizenName,
       phone,

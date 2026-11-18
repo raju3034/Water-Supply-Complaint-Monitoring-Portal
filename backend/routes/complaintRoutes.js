@@ -19,14 +19,8 @@ const { protect, authorize } = require("../middleware/authMiddleware");
 router.get("/stats", getStats);
 router.get("/track/:idOrPhone", trackComplaintPublic);
 
-// Register complaint can be done with or without login (if logged in, JWT populates req.user)
-router.post("/", (req, res, next) => {
-  const authHeader = req.headers.authorization;
-  if (authHeader && authHeader.startsWith("Bearer ")) {
-    return protect(req, res, next);
-  }
-  next();
-}, createComplaint);
+// Register complaint requires citizen login
+router.post("/", protect, authorize("Citizen", "Admin"), createComplaint);
 
 // Protected routes below
 router.get("/", protect, getComplaints);
