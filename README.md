@@ -1,9 +1,8 @@
-# 💧 JalConnect - Water Supply Complaint and Monitoring Portal
+# 💧 Water Supply Complaint & Monitoring Portal
 
 > **B.Tech IV Year I Semester | Academic Year 2026–2027**  
 > **Course:** DevOps & Full Stack Development  
 > **Institution:** SR UNIVERSITY | School of Computer Science & AI  
-> **Project #56:** Water Supply Complaint and Monitoring Portal  
 > **Student Name:** OMKARAM NARASIMHA RAJU  
 > **Enrolment No:** 2303A53034  
 
