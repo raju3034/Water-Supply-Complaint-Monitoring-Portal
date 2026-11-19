@@ -184,6 +184,54 @@ docker compose down
 
 ---
 
+## ☁️ Cloud Deployment: Frontend on Render & Backend on Vercel
+
+This repository is pre-configured with `vercel.json` and `render.yaml` for instantaneous deployment across **Vercel** (Backend Serverless API) and **Render** (Frontend Static Site).
+
+### Step 1: Deploy Backend to Vercel
+
+1. Log in to your [Vercel Dashboard](https://vercel.com).
+2. Click **Add New...** &rarr; **Project** and select your GitHub repository:
+   `https://github.com/raju3034/Water-Supply-Complaint-Monitoring-Portal`
+3. In the configuration screen:
+   - **Framework Preset:** `Other`
+   - **Root Directory:** Click **Edit** and choose `backend` (or leave as root, both `backend/vercel.json` and root `vercel.json` are provided).
+   - **Environment Variables:** (Optional)
+     - `MONGO_URI`: `mongodb+srv://<username>:<password>@cluster.mongodb.net/water_supply_portal` (Optional; if omitted, the backend runs in resilient evaluation mode with seeded demo data).
+     - `JWT_SECRET`: `jalconnect_secure_jwt_token_secret_key_2026`
+4. Click **Deploy**.
+5. Once deployed, copy your assigned Vercel URL (e.g. `https://water-supply-backend.vercel.app`).
+   - Verify health: `https://<your-vercel-backend>.vercel.app/api/health`
+
+---
+
+### Step 2: Deploy Frontend to Render
+
+1. Log in to your [Render Dashboard](https://dashboard.render.com).
+2. Click **New +** &rarr; **Static Site**.
+3. Connect your GitHub repository:
+   `https://github.com/raju3034/Water-Supply-Complaint-Monitoring-Portal`
+4. Configure the settings:
+   - **Name:** `water-supply-portal`
+   - **Branch:** `main`
+   - **Root Directory:** `frontend`
+   - **Build Command:** `npm install && npm run build`
+   - **Publish Directory:** `dist`
+5. **Environment Variable:**
+   - Under **Environment Variables**, click **Add Environment Variable**:
+     - Key: `VITE_API_BASE_URL`
+     - Value: `https://<your-vercel-backend>.vercel.app/api` *(replace with your actual Vercel backend URL)*
+6. **Single-Page Application (SPA) Rewrite:**
+   - Go to **Redirects/Rewrites** in the Render left sidebar.
+   - Click **Add Rule**:
+     - **Source:** `/*`
+     - **Destination:** `/index.html`
+     - **Action:** `Rewrite`
+7. Click **Create Static Site** (or **Deploy**).
+8. Once deployed, open your live Render URL (e.g. `https://water-supply-portal.onrender.com`)!
+
+---
+
 ## ☸️ Kubernetes Deployment Instructions
 
 Production Kubernetes manifests are organized inside the `k8s/` directory.

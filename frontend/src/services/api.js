@@ -1,4 +1,11 @@
-const API_BASE = import.meta.env.VITE_API_BASE_URL || "/api";
+const getApiBase = () => {
+  const envUrl = import.meta.env.VITE_API_BASE_URL;
+  if (!envUrl || !envUrl.trim()) return "/api";
+  const trimmed = envUrl.trim().replace(/\/+$/, "");
+  return trimmed.endsWith("/api") ? trimmed : `${trimmed}/api`;
+};
+
+const API_BASE = getApiBase();
 
 const getToken = () => localStorage.getItem("jalconnect_token");
 
@@ -22,14 +29,14 @@ const request = async (endpoint, options = {}) => {
     }
     if (!res.ok) {
       if (res.status === 502 || res.status === 504) {
-        throw new Error("Backend server is not running on port 5000. Please start the backend server.");
+        throw new Error("Backend server is unreachable (status 502). Please verify the backend is running.");
       }
       throw new Error(data.message || `Request failed with status ${res.status}`);
     }
     return data;
   } catch (err) {
     if (err.name === "TypeError" && err.message.includes("fetch")) {
-      throw new Error("Unable to connect to backend server. Please make sure the backend is running on port 5000.");
+      throw new Error("Unable to connect to backend server. Please verify the backend service URL.");
     }
     console.error(`API Error on ${endpoint}:`, err.message);
     throw err;

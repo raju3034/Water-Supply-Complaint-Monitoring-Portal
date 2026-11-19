@@ -12,18 +12,27 @@ const reportRoutes = require("./routes/reportRoutes");
 const app = express();
 
 // Middleware
-app.use(cors());
+app.use(cors({
+  origin: "*",
+  methods: ["GET", "POST", "PUT", "PATCH", "DELETE", "OPTIONS"],
+  allowedHeaders: ["Content-Type", "Authorization"]
+}));
 app.use(express.json());
 
-// Routes
-app.use("/api/auth", authRoutes);
-app.use("/api/complaints", complaintRoutes);
-app.use("/api/schedules", scheduleRoutes);
-app.use("/api/service-updates", serviceUpdateRoutes);
-app.use("/api/reports", reportRoutes);
+// Database connection initialization for serverless & traditional environments
+let dbPromise = null;
+app.use(async (req, res, next) => {
+  if (!dbPromise) {
+    dbPromise = connectDB().catch((err) => {
+      console.warn("DB connection warning:", err.message);
+    });
+  }
+  await dbPromise;
+  next();
+});
 
-// Health check API
-app.get("/api/health", (req, res) => {
+// Health check handler
+const healthHandler = (req, res) => {
   res.json({
     success: true,
     message: "Water Supply Complaint and Monitoring Portal API is active",
@@ -32,10 +41,10 @@ app.get("/api/health", (req, res) => {
     service: "JalConnect Water Management Backend",
     version: "2.0.0",
   });
-});
+};
 
 // Root friendly API descriptor
-app.get("/", (req, res) => {
+const rootHandler = (req, res) => {
   res.json({
     portal: "JalConnect - Water Supply Complaint & Monitoring System",
     status: "Operational",
@@ -48,15 +57,24 @@ app.get("/", (req, res) => {
       reports: "/api/reports",
     },
   });
-});
+};
 
-// Start Server
-async function startServer() {
-  try {
-    // Attempt DB connection (with graceful in-memory fallback)
-    await connectDB();
+// Routes
+app.use("/api/auth", authRoutes);
+app.use("/api/complaints", complaintRoutes);
+app.use("/api/schedules", scheduleRoutes);
+app.use("/api/service-updates", serviceUpdateRoutes);
+app.use("/api/reports", reportRoutes);
 
-    const PORT = process.env.PORT || 5000;
+app.get("/api/health", healthHandler);
+app.get("/health", healthHandler);
+app.get("/", rootHandler);
+app.get("/api", rootHandler);
+
+// Start Server (only when not in Vercel serverless environment)
+if (!process.env.VERCEL) {
+  const PORT = process.env.PORT || 5000;
+  connectDB().then(() => {
     app.listen(PORT, () => {
       console.log(`====================================================`);
       console.log(` JalConnect Water Supply API Server Running`);
@@ -65,11 +83,9 @@ async function startServer() {
       console.log(` DB Status : ${getDbMode()}`);
       console.log(`====================================================`);
     });
-  } catch (error) {
-    console.error("Startup error:", error.message);
-  }
+  }).catch((err) => {
+    console.error("Startup error:", err.message);
+  });
 }
-
-startServer();
 
 module.exports = app;
