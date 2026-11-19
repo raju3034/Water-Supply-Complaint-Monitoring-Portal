@@ -20,7 +20,7 @@ const generateToken = (user) => {
 // Citizen registration
 const registerUser = async (req, res) => {
   try {
-    const { name, email, phone, password, role, assignedArea } = req.body;
+    const { name, email, phone, password, assignedArea } = req.body;
 
     if (!name || !email || !phone || !password) {
       return res.status(400).json({
@@ -46,10 +46,8 @@ const registerUser = async (req, res) => {
       });
     }
 
-    // Default to Citizen for public registration
-    const userRole = role && ["Citizen", "Field Technician", "Water Department Officer", "Admin"].includes(role)
-      ? role
-      : "Citizen";
+    // Public registration must never grant staff or administrator roles.
+    const userRole = "Citizen";
 
     const user = await userStore.create({
       name: name.trim(),

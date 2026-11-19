@@ -21,6 +21,9 @@ const request = async (endpoint, options = {}) => {
       throw new Error(`Backend server error (status ${res.status}). Please verify the backend is running.`);
     }
     if (!res.ok) {
+      if (res.status === 502 || res.status === 504) {
+        throw new Error("Backend server is not running on port 5000. Please start the backend server.");
+      }
       throw new Error(data.message || `Request failed with status ${res.status}`);
     }
     return data;
